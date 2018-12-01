@@ -116,21 +116,15 @@ img{
 </style>
 
 <h1 style="text-align:center">Application Form</h1>
-\n
-\n
-\n
-\n
-<br>
-
 <div class="container">
 <br>
 
 
 <hr>
 <h2 >Personal Information</h2>
-<div class="c">
+<div class="c" style="float:right;">
 <img width="150px" height="100px"  src="uploads/photo/$user[65]" alt="photo">
-
+<br/><br/><br/><br/><br/><br/><br/><br/>
 <img style="float:right" width="150px" height="50px" src="uploads/sign/$user[66]" alt="photo">
 </div>
 

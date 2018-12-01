@@ -39,6 +39,8 @@
 
 <?php 
 
+$table_name="user";
+
 $email=$pass=$login_error="";
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
@@ -56,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 		}
 		else{
 
-			$sql="SELECT * FROM user WHERE email='$email' AND password='$pass'";
+			$sql="SELECT * FROM $table_name WHERE email='$email' AND password='$pass'";
 
 			$result=$conn->query($sql);
 

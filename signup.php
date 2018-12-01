@@ -45,6 +45,9 @@
 <body>
 
 <?php 
+		require 'conf.php';
+
+		$table_name="user";
 
 $email=$name=$password=$retype=$contact=$qualification=$retype_error=$email_error=$password_error="";
 
@@ -73,19 +76,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$contact=$_POST["contact"];
 	$qualification=$_POST["postapp"];
 
-	if($pass!=$retype){
+	$ans = preg_match("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/", $pass); 
+
+	if($ans == 0 && $ans == 1) {
+		echo "Wrong password format";
+		$error = true;
+		//echo "<script>alert('Wrong Password Format')</script>";
+	
+
+		echo "<script> window.onload = function(){
+    		document.getElementById('passerror').innerHTML = 'wp'</script> ;";
+	}
+	else if($pass!=$retype){
 
 		$retype_error="Password Doesnot match";
 		$error=true;
 		echo "Password Doesnot match";
 
-	}
 
+	}
+	
 	if(!$error){
 
 		// if no error save to database
 
-		require 'conf.php';
 
 
 		// Create connection
@@ -101,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$token=generateRandomString();
 
 
-			$sql = "INSERT INTO user (email, password,signup_token,isvalidated,contact,qualification) VALUES ('$email', '$pass','$token',false,'$contact','$qualification')";
+			$sql = "INSERT INTO $table_name (email, password,signup_token,isvalidated,contact,qualification) VALUES ('$email', '$pass','$token',false,'$contact','$qualification')";
 
 			if ($conn->query($sql) === TRUE) {
 			    echo "New record created successfully";
@@ -133,6 +147,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 }
+
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $dbname);
+  // Check connection
+  if ($conn->connect_error) {
+	  die("Connection failed: " . $conn->connect_error);
+  }
+  else{
+
+
+	  $sql = "SELECT name FROM posts";
+
+
+	  $result=$conn->query($sql);
+
+	  if($result->num_rows>0){
+
+
+		 // $row=mysqli_fetch_row($result);
+
+		 $jobs=array();
+
+		  while ($row=mysqli_fetch_row($result))
+		  {
+			  array_push($jobs,$row);
+
+		  }
+
+  
+	  } else {
+
+	  }
+
+	  $conn->close();
+  }
+
 
 ?>
 
@@ -221,7 +271,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 				<div class="input-field col s6">
 				<i class="material-icons prefix" style="color:#3FAEA8">phone</i>
-				<input id="contact" type="number" autocomplete="off"  name="contact" value="<?php echo $contact ?>" required>
+				<input id="contact" type="number" min="0" step="1" autocomplete="off"  name="contact" value="<?php echo $contact ?>" required>
 				<label for="icon_prefix">Contact Number</label>
 				</div>
 				</div>
@@ -240,16 +290,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				<label for="retype">Retype Password</label>
 				</div>
 				</div>
-		
+				<div>
+					<p id="passerror">
+					</p>
+				</div>
 				<br>
 				<div class="input-field col s12">
-			    <select name="postapp" required>
-			      <option value="" disabled selected>Choose Post you are applying for</option>
-			      <option value="Assistant Manager (Admin)">Assistant Manager (Admin)</option>
-			      <option value="Assistant Manager/Junior Manager (Accounts)">Assistant Manager/Junior Manager (Accounts)</option>
-			      <option value="Junior Research Engineer">Junior Research Engineer</option>
-			    </select>
-			    <label>Post appying for</label>
+
+				<select name="postapp" required>
+				<option value="" disabled selected>Choose Post you are applying for</option>
+
+
+				
+				 <?php 
+
+				foreach ($jobs as $job) {
+					echo($job[0]);
+					echo("<br>");
+					echo "<option value='$job[0]'>$job[0]</option>";
+
+
+				
+					}
+
+
+?>			   
+			 </select>
+			 <label>Post appying for</label>
+
 			 	</div>
 
 			 <div class="g-recaptcha col s12" style="margin-left:20%;margin-right:20%;margin-bottom:5%;margin-top:0px;" 
