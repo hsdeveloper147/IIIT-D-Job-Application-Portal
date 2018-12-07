@@ -1,5 +1,6 @@
 
 .notprint {display: none}
+.body{display: none;}
 .print {visibility:visible;}
-
-
+.material-tooltip{display: none;}
+.hiddendiv{display: none ;}

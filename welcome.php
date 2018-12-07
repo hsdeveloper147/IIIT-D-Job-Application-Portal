@@ -81,21 +81,25 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
       at a time ,save it and later you can fill other sections. DO REMEMBER TO SAVE/UPDATE SECTION ONCE FILLED
     </p>
 
-    <?php if($_SESSION["user"][70]=="n"){
+    <?php if($_SESSION["user"][20]=="n" || $_SESSION["user"][20]=="y"){
     
-    echo '<button class=" btn waves-effect waves-light"><a href="application_form.php">Fill Application form</a></button>
+    echo '<button class=" btn waves-effect waves-light"><a href="application_form1.php">Fill Application form</a></button>
     <br>
     <br>
     <p id="dwnld_text"  class="flow-text" style="font-size:12px;font-weight: bold;">DOWNLOAD PDF button will be active once you have filled application form and submit it successfully</p>
-    <button id="disable" class=" btn waves-effect waves-light" ><a href="pdf.php">Download Pdf</a></button>
-';
-  }else if($_SESSION["user"][70]=="y"){
+    <div>
+    <button id="disable" class=" btn waves-effect waves-light" ><a href="pdf1.php" target="_blank">Download Pdf</a></button>
+    </div>
+';}
+   if($_SESSION["user"][20]=="y" || $_SESSION["user"][20]=="n"){
     
-    echo '<button id="disable" class=" btn waves-effect waves-light"><a href="application_form.php">Fill Application form</a></button>
+    echo '<button id="disable" class=" btn waves-effect waves-light"><a href="application_form1.php">Fill Application form</a></button>
     <br>
     <br>
     <p id="dwnld_text"  class="flow-text" style="font-size:12px;font-weight: bold;">DOWNLOAD PDF button will be active once you have filled application form and submit it successfully</p>
-    <button  class=" btn waves-effect waves-light" ><a href="pdf.php">Download Pdf</a></button>
+    <div>
+    <button  class=" btn waves-effect waves-light" ><a href="pdf1.php" target="_blank">Download Pdf</a></button>
+    </div>
 ';
 }
 
