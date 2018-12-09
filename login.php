@@ -6,7 +6,7 @@
 		<!--Import Google Icon Font-->
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<!--Import materialize.css-->
-		<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
 		<link type="text/css" rel="stylesheet" href="css/main_styles.css"  media="screen,projection"/>
 
 		<!--Let browser know website is optimized for mobile-->
@@ -39,17 +39,29 @@
 
 <?php 
 
-$table_name="user";
-
+//$table_name="user";
 $email=$pass=$login_error="";
+		require 'conf.php';
+
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 		$email=$_POST["email"];
 		$pass=$_POST["pass"];
+			$apply_for=$_POST["postapp"];
+
 		
         require 'conf.php';
 
+$table_name="table";
+			 $names=explode(" ",$apply_for);
+
+
+                foreach ($names as $name) {
+                    $table_name=$table_name."_".$name;
+                }
+                
+                echo $table_name;
 
 		$conn=new mysqli($servername,$username,$password,$dbname);
 
@@ -71,6 +83,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 				$row=mysqli_fetch_row($result);
 				$_SESSION["user"]=$row;
+				$_SESSION["table"]=$table_name;
 
 				//$user_name=$row[1];
 
@@ -95,6 +108,46 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 	}
 
+
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $dbname);
+  // Check connection
+  		 $jobs=array();
+
+  if ($conn->connect_error) {
+	  die("Connection failed: " . $conn->connect_error);
+  }
+  else{
+
+
+	  $sql = "SELECT name FROM posts";
+
+
+	  $result=$conn->query($sql);
+
+	  if($result->num_rows>0){
+
+
+		 // $row=mysqli_fetch_row($result);
+
+
+		  while ($row=mysqli_fetch_row($result))
+		  {
+			  array_push($jobs,$row);
+
+		  }
+
+
+
+  
+	  } else {
+
+	  }
+
+	  $conn->close();
+  }
+
+
 ?>
 
 <header id="header col s12">
@@ -116,7 +169,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         <div class="row" style="margin:5px">
 			<form class="col s12" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 			<div class="card col s8 offset-s2">
-			<div class="row form-field" style="margin-bottom:10%;">
+			<div class="row form-field" style="margin-bottom:5%;">
 				<div class="input-field col s8 offset-s2">
 				<i class="material-icons prefix">email</i>
 				<input id="email" type="email" name="email" class="validate" value="<?php echo $email ?>" required>
@@ -125,7 +178,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 				</div>
 			</div>
 
-			<div class="row form-field" style="margin-bottom:15%;">
+			<div class="row form-field" style="margin-bottom:5%;">
 				<div class="input-field col s8 offset-s2">
 				<i class="material-icons prefix">fingerprint</i>
 				<input id="pass" type="password" name="pass" class="validate" required>
@@ -133,6 +186,27 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 				<span class="helper-text"></span>
 				</div>
 			</div>
+
+			<div class="input-field col s12">
+
+				<select style="display:block" name="postapp" required>
+				<option value="" disabled selected>Choose Post you are applying for</option>
+
+				 <?php 
+
+				foreach ($jobs as $job) {
+					echo($job[0]);
+					echo "<option value='$job[0]'>$job[0]</option>";
+				
+					}
+
+
+?>			   
+			 </select>
+			 <br>
+
+			 	</div>
+
 			<div class="row" >
 				
 			<div class="col s12 g-recaptcha" style="margin-left:10%;margin-right:10%;margin-bottom:5%;margin-top:0px;"
@@ -142,7 +216,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 			</div>
 
 
+
 		</div>
+
+
+
 
 			
 			
@@ -160,6 +238,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
    </div>
 
   </div>
+  </div>
+
 
 
 
@@ -176,7 +256,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 	<!--JavaScript at end of body for optimized loading-->
 
-	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/materialize.js"></script>
 	<script type="text/javascript">
 	 document.getElementById("submit").disabled = true;
 

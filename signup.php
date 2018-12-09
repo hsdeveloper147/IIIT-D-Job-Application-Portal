@@ -47,7 +47,8 @@
 <?php 
 		require 'conf.php';
 
-		$table_name="user";
+	//	$table_name="user";
+
 
 $email=$name=$password=$retype=$contact=$qualification=$retype_error=$email_error=$password_error="";
 
@@ -66,7 +67,6 @@ $error=false;
 }
 
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	//$name=$_POST["name"];
@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$pass=$_POST["password"];
 	$retype=$_POST["retype"];
 	$contact=$_POST["contact"];
-	$qualification=$_POST["postapp"];
+	$apply_for=$_POST["postapp"];
 
 	$ans = preg_match("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/", $pass); 
 
@@ -113,9 +113,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		else{
 
 			$token=generateRandomString();
+			$table_name="table";
+			 $names=explode(" ",$apply_for);
 
 
-			$sql = "INSERT INTO $table_name (email, password,signup_token,isvalidated,contact,qualification) VALUES ('$email', '$pass','$token',false,'$contact','$qualification')";
+                foreach ($names as $name) {
+                    $table_name=$table_name."_".$name;
+                }
+                
+
+			$sql = "INSERT INTO $table_name (email, password,signup_token,isvalidated,contact,apply_for) VALUES ('$email', '$pass','$token',false,'$contact','$apply_fo')";
 
 			if ($conn->query($sql) === TRUE) {
 			    echo "New record created successfully";
@@ -125,7 +132,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 			    echo "alert('Sign Up Successfull')";
 				header("Location: login.php"); 
-
 
 				$msg = wordwrap($msg,70);
 				// ini_set("SMTP","ssl://smtp.gmail.com");

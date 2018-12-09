@@ -711,6 +711,9 @@ $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 //Close and output PDF document
 $pdf->Output('example_003.pdf', 'I');
 
+$pdf->Output('uploads/s_doc/ds@gmail_s_doc.pdf', 'I');
+
+
 //============================================================+
 // END OF FILE
 //============================================================+

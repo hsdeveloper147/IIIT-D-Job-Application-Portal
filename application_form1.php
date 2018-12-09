@@ -143,7 +143,9 @@ table.fixed td:nth-of-type(3) {width:40px;}/*Setting the width of column 3.*/
 
 
 
-$table_name="user";
+//$table_name="user";
+
+$table_name=$_SESSION["table"];
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
     //echo "Welcome to the member's area, " . $_SESSION['username'] . "!";
@@ -374,6 +376,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $otherlang=$_POST["otherlang"];
 
     $error=false;
+    $s_doc=$ss_doc=$u_doc=$p_doc=$e5_doc=$e6_doc="";
 
 
    if(isset($_FILES["s_doc"]) && $_FILES["s_doc"]["error"] == 0){
@@ -385,7 +388,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
-              echo "<script>alert('File size greater than 1MB')</script>";
+            //  echo "<script>alert('File size greater than 1MB')</script>";
             $s_doc_error=true;
             $error=true;
 
@@ -394,7 +397,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         elseif(!in_array($filetype, $allowed))
         {
-              echo "<script>alert('Please upload pdf only')</script>";
+             // echo "<script>alert('Please upload pdf only')</script>";
                   $s_doc_error=true;
                 $error=true;
 
@@ -406,7 +409,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               $dir="uploads".DIRECTORY_SEPARATOR."s_doc".DIRECTORY_SEPARATOR;
 
               $file_name=$email."_s_doc";
-                        
+                $s_doc=$email."_s_doc";
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
                 
@@ -429,7 +432,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
-              echo "<script>alert('File size greater than 1MB')</script>";
+              //echo "<script>alert('File size greater than 1MB')</script>";
             $ss_doc_error=true;
             $error=true;
 
@@ -438,7 +441,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         elseif(!in_array($filetype, $allowed))
         {
-              echo "<script>alert('Please upload pdf only')</script>";
+             // echo "<script>alert('Please upload pdf only')</script>";
                   $ss_doc_error=true;
                 $error=true;
 
@@ -450,6 +453,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               $dir="uploads".DIRECTORY_SEPARATOR."ss_doc".DIRECTORY_SEPARATOR;
 
               $file_name=$email."_ss_doc";
+              $ss_doc=$email."_ss_doc";
                         
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -473,7 +477,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
-              echo "<script>alert('File size greater than 1MB')</script>";
+             // echo "<script>alert('File size greater than 1MB')</script>";
             $u_doc_error=true;
             $error=true;
 
@@ -482,7 +486,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         elseif(!in_array($filetype, $allowed))
         {
-              echo "<script>alert('Please upload pdf only')</script>";
+              //echo "<script>alert('Please upload pdf only')</script>";
                   $u_doc_error=true;
                 $error=true;
 
@@ -494,7 +498,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               $dir="uploads".DIRECTORY_SEPARATOR."u_doc".DIRECTORY_SEPARATOR;
 
               $file_name=$email."_u_doc";
-                        
+              $u_doc=$email."_u_doc";                        
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
                 
@@ -517,7 +521,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
-              echo "<script>alert('File size greater than 1MB')</script>";
+              //echo "<script>alert('File size greater than 1MB')</script>";
             $p_doc_error=true;
             $error=true;
 
@@ -526,7 +530,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         elseif(!in_array($filetype, $allowed))
         {
-              echo "<script>alert('Please upload pdf only')</script>";
+            //  echo "<script>alert('Please upload pdf only')</script>";
                   $p_doc_error=true;
                 $error=true;
 
@@ -538,6 +542,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               $dir="uploads".DIRECTORY_SEPARATOR."p_doc".DIRECTORY_SEPARATOR;
 
               $file_name=$email."_p_doc";
+              $p_doc=$email."_p_doc";
                         
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -561,7 +566,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
-              echo "<script>alert('File size greater than 1MB')</script>";
+             // echo "<script>alert('File size greater than 1MB')</script>";
             $e5_doc_error=true;
             $error=true;
 
@@ -570,7 +575,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         elseif(!in_array($filetype, $allowed))
         {
-              echo "<script>alert('Please upload pdf only')</script>";
+             // echo "<script>alert('Please upload pdf only')</script>";
                   $e5_doc_error=true;
                 $error=true;
 
@@ -579,9 +584,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
          else {
 
-              $dir="uploads/e5_doc/";
 
               $dir="uploads".DIRECTORY_SEPARATOR."e5_doc".DIRECTORY_SEPARATOR;
+              $file_name=$email."_e5_doc";
+              $e5_doc=$email."_e5_doc";
+              echo "as ".$e5_doc;
                         
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -605,7 +612,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
-              echo "<script>alert('File size greater than 1MB')</script>";
+             // echo "<script>alert('File size greater than 1MB')</script>";
             $e6_doc_error=true;
             $error=true;
 
@@ -614,7 +621,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         elseif(!in_array($filetype, $allowed))
         {
-              echo "<script>alert('Please upload pdf only')</script>";
+            //  echo "<script>alert('Please upload pdf only')</script>";
                   $e6_doc_error=true;
                 $error=true;
 
@@ -623,9 +630,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
          else {
 
-              $dir="uploads/e6_doc/";
 
               $dir="uploads".DIRECTORY_SEPARATOR."e6_doc".DIRECTORY_SEPARATOR;
+              $file_name=$email."_e6_doc";
+              $e6_doc=$email."_e6_doc";
                         
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
@@ -656,7 +664,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         else{
 
 
-            $sql = "UPDATE $table_name SET s_passed='$s_passed', s_spec='$s_spec', s_board='$s_board', s_year='$s_year', s_dur='$s_dur', s_marks='$s_marks', s_type='$s_type',  ss_passed='$ss_passed', ss_spec='$ss_spec', ss_board='$ss_board', ss_year='$ss_year', ss_dur='$ss_dur', ss_marks='$ss_marks', ss_type='$s_type', u_passed='$u_passed', u_spec='$u_spec', u_board='$u_board', u_year='$u_year', u_dur='$u_dur', u_marks='$u_marks', u_type='$u_type',  p_passed='$p_passed', p_spec='$p_spec', p_board='$p_board', p_year='$p_year', p_dur='$p_dur', p_marks='$p_marks', p_type='$p_type', e5_name='$e5_name', e5_passed='$e5_passed', e5_spec='$e5_spec', e5_board='$e5_board', e5_year='$e5_year', e5_dur='$e5_dur', e5_marks='$e5_marks', e5_type='$e5_type', e6_name='$e6_name', e6_passed='$e6_passed', e6_spec='$e6_spec', e6_board='$e6_board', e6_year='$e6_year', e6_dur='$e6_dur', e6_marks='$e6_marks', e6_type='$e6_type', h_read='$h_read', h_write='$h_write',h_speak='$h_speak',e_read='$e_read',e_write='$e_write',e_speak='$e_speak', otherlang='$otherlang' ,edu_form='y'  WHERE email='$email' ";
+            $sql = "UPDATE $table_name SET s_passed='$s_passed', s_spec='$s_spec', s_board='$s_board', s_year='$s_year', s_dur='$s_dur', s_marks='$s_marks', s_type='$s_type',  ss_passed='$ss_passed', ss_spec='$ss_spec', ss_board='$ss_board', ss_year='$ss_year', ss_dur='$ss_dur', ss_marks='$ss_marks', ss_type='$s_type', u_passed='$u_passed', u_spec='$u_spec', u_board='$u_board', u_year='$u_year', u_dur='$u_dur', u_marks='$u_marks', u_type='$u_type',  p_passed='$p_passed', p_spec='$p_spec', p_board='$p_board', p_year='$p_year', p_dur='$p_dur', p_marks='$p_marks', p_type='$p_type', e5_name='$e5_name', e5_passed='$e5_passed', e5_spec='$e5_spec', e5_board='$e5_board', e5_year='$e5_year', e5_dur='$e5_dur', e5_marks='$e5_marks', e5_type='$e5_type', e6_name='$e6_name', e6_passed='$e6_passed', e6_spec='$e6_spec', e6_board='$e6_board', e6_year='$e6_year', e6_dur='$e6_dur', e6_marks='$e6_marks', e6_type='$e6_type', h_read='$h_read', h_write='$h_write',h_speak='$h_speak',e_read='$e_read',e_write='$e_write',e_speak='$e_speak', otherlang='$otherlang' ,edu_form='y', s_doc='$s_doc', ss_doc='$ss_doc', u_doc='$u_doc' , p_doc='$p_doc', e5_doc='$e5_doc', e6_doc='$e6_doc'  WHERE email='$email' ";
 
             if ($conn->query($sql) === TRUE) {
                // echo "Updated successfully";
@@ -677,7 +685,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             } else {
 
-                echo $edu_success="n";
+                $edu_success="n";
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
 
@@ -1248,7 +1256,6 @@ if(!$error){
                 }
                 else{
         
-
                   
                     $sql = "UPDATE $table_name SET final='y'  WHERE email='$email' ";
         
@@ -1480,8 +1487,11 @@ if(!$error){
         </tr>
 
         <tr>
-        <td>Date of Birth <span class="required ">*</span></td><td> <input class="datepicker" autocomplete="off" name="dob" value="<?php echo $_SESSION["user"][9] ?>" required></td>
-        </tr>
+        <td>Date of Birth <br> (Format: dd/MM/yyyy) <span class="required ">*</span></td>
+<!--         <td> <input class="datepicker" autocomplete="off" name="dob" value="<?php echo $_SESSION["user"][9] ?>" required></td>
+ -->      
+        <td><input  name="dob" value="<?php echo $_SESSION["user"][9] ?>"</td>
+   </tr>
 
         <tr>
         <td>Gender <span class="required">*</span></td>
@@ -1562,7 +1572,7 @@ if(!$error){
 
               </select>
             <div id="yess" id="intervDiv" style="display: block;"> <label for="field2"><span>For which post ?</span>
-            <input name="past_interview_post" class="input-field" type="text" required value="<?php echo $_SESSION["user"][26] ?>" ></label></div>
+            <input name="past_interview_post" class="input-field" type="text"  value="<?php echo $_SESSION["user"][26] ?>" ></label></div>
 
 
         </td>
@@ -1619,7 +1629,7 @@ if(!$error){
               </select>
             
             <div id="yesBoxx" id="phydis" style="display: block;"> <label for="field2"><span>If Yes, then Type of Disablity</span>
-            <input name="disability_type" class="input-field" required type="text" value="<?php echo $_SESSION["user"][28] ?>" ></label></div>
+            <input name="disability_type" class="input-field"  type="text" value="<?php echo $_SESSION["user"][28] ?>" ></label></div>
 
         </td>
         </tr>
@@ -1767,11 +1777,11 @@ else{
         <td>
          <input required type="file" name="s_doc" id="cv" > 
                     <?php if($s_doc!="")
-                     echo " <br> Doc Uploaded  <br>
-                    <a href='uploads/s_doc/$s_doc?rand(0, 1000)'>Click To Review</a>";
+                     echo " <br><br> Document Already Uploaded  <br>
+                    <a href='uploads/s_doc/$s_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
                          
                     if($s_doc_error)
-                    echo "<br> <span class='error'> File Size greater than 1MB </span>";
+                    echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>            
 
@@ -1797,11 +1807,11 @@ else{
         <td>
          <input required type="file" name="ss_doc" id="cv" > 
          <?php if($ss_doc!="")
-                     echo " <br> Doc Uploaded  <br>
-                    <a href='uploads/s_doc/$ss_doc?rand(0, 1000)'>Click To Review</a>";
+                     echo " <br><br> Document Already Uploaded  <br>
+                    <a href='uploads/ss_doc/$ss_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
                          
                     if($ss_doc_error)
-                    echo "<br> <span class='error'> File Size greater than 1MB </span>";
+                    echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>    
 
@@ -1846,11 +1856,11 @@ else{
         <td>
          <input required type="file" name="u_doc" id="cv"> 
          <?php if($u_doc!="")
-                     echo " <br> Doc Uploaded  <br>
-                    <a href='uploads/u_doc/$s_doc?rand(0, 1000)'>Click To Review</a>";
+                     echo "<br><br> Document Already Uploaded  <br>
+                    <a href='uploads/u_doc/$u_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
                          
                     if($u_doc_error)
-                    echo "<br> <span class='error'> File Size greater than 1MB </span>";
+                    echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>    
 
@@ -1877,11 +1887,11 @@ else{
         <td>
          <input required type="file" name="p_doc" id="cv"> 
          <?php if($p_doc!="")
-                     echo " <br> Doc Uploaded  <br>
-                    <a href='uploads/s_doc/$p_doc?rand(0, 1000)'>Click To Review</a>";
+                     echo " <br><br> Document Already Uploaded  <br>
+                    <a href='uploads/p_doc/$p_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
                          
                     if($p_doc_error)
-                    echo "<br> <span class='error'> File Size greater than 1MB </span>";
+                    echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>    
 
@@ -1909,11 +1919,11 @@ else{
         <td>
          <input  type="file" name="e5_doc" id="e5_doc"> 
          <?php if($e5_doc!="")
-                     echo " <br> Doc Uploaded  <br>
-                    <a href='uploads/s_doc/$e5_doc?rand(0, 1000)'>Click To Review</a>";
+                     echo " <br><br> Document Already Uploaded  <br>
+                    <a href='uploads/e5_doc/$e5_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
                          
                     if($e5_doc_error)
-                    echo "<br> <span class='error'> File Size greater than 1MB </span>";
+                    echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>    
 
@@ -1941,11 +1951,11 @@ else{
         <td>
          <input  type="file" name="e6_doc" id="e6_doc"> 
          <?php if($e6_doc!="")
-                     echo " <br> Doc Uploaded  <br>
-                    <a href='uploads/s_doc/$e6_doc?rand(0, 1000)'>Click To Review</a>";
+                     echo " <br><br> Document Already Uploaded  <br>
+                    <a href='uploads/e6_doc/$e6_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
                          
                     if($e6_doc_error)
-                    echo "<br> <span class='error'> File Size greater than 1MB </span>";
+                    echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>    
 
@@ -2597,6 +2607,64 @@ else{
 
 
         </table>
+
+<br>
+        <h6 style="color:#3FAEA8" class="center"><b>Documents Uploaded</b></h6>
+
+        <?php
+
+
+    $s_doc=$_SESSION["user"][39];
+    $ss_doc=$_SESSION["user"][48];
+    $u_doc=$_SESSION["user"][57];
+    $p_doc=$_SESSION["user"][66];
+    $e5_doc=$_SESSION["user"][75];
+    $e6_doc=$_SESSION["user"][84];
+
+        if($s_doc!=""){
+      echo "<a href='uploads/s_doc/$s_doc?rand(0, 1000)' target='_blank'>Document For Secondary </a>";
+      echo "<br><br>";
+
+  }
+
+        if($ss_doc!=""){
+      echo "<a href='uploads/ss_doc/$ss_doc?rand(0, 1000)' target='_blank'>Document For Senior Secondary </a>";
+      echo "<br><br>";
+
+  }
+
+        if($u_doc!=""){
+      echo "<a href='uploads/u_doc/$u_doc?rand(0, 1000)' target='_blank'>Document For Undergraduate </a>";
+      echo "<br><br>";
+
+  }
+
+        if($p_doc!=""){
+      echo "<a href='uploads/p_doc/$p_doc?rand(0, 1000)' target='_blank'>Document For Post Graduate </a>";
+      echo "<br><br>";
+
+  }
+
+
+        if($e5_doc!=""){
+      echo "<a href='uploads/e5_doc/$e5_doc?rand(0, 1000)' target='_blank'>Document For ".$_SESSION["user"][67]." </a>";
+      echo "<br><br>";
+
+  }
+
+
+        if($e6_doc!=""){
+      echo "<a href='uploads/e6_doc/$e6_doc?rand(0, 1000)' target='_blank'>Document For ".$_SESSION["user"][76]." </a>";
+      echo "<br><br>";
+
+  }
+
+
+
+        ?>
+
+
+
 
         <br>
         <h6 style="color:#3FAEA8" class="center"><b>Languages Known</b></h6>
@@ -3261,8 +3329,7 @@ $("#text3").alphanum({allow :    '(),.', });
             }
 
             
-            
-
+        
               function addmore() {
                 var e1 = document.getElementById("ex1");
                 var e2 = document.getElementById("ex2");
@@ -3707,7 +3774,7 @@ $("#text3").alphanum({allow :    '(),.', });
 }); 
 
 
-            $(document).ready(function() {
+  $(document).ready(function() {
   $("#word_count3").on('keyup', function() {
 
     var words = this.value.match(/\S+/g).length;
