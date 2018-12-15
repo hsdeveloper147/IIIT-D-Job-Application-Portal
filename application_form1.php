@@ -141,6 +141,12 @@ table.fixed td:nth-of-type(3) {width:40px;}/*Setting the width of column 3.*/
 
 <?php session_start();
 
+ if(!array_key_exists("loggedin",$_SESSION) || $_SESSION["loggedin"]!=TRUE){
+
+                                header("Location: unautherized.php"); 
+
+
+                    }
 
 
 //$table_name="user";
@@ -165,13 +171,13 @@ $fn=$mn=$ln=$address=$city=$state=$pincode=$dob=$photo=$sign=$cv_uploaded="";
 $page="";
 $persoanl_success=$edu_success=$exp_success=$cv_success=$photo_success=$sign_success="y";
 
-    $s_doc_error=false;
-    $ss_doc_error=false;
-    $u_doc_error=false;
+    $s_doc_error=FALSE;
+    $ss_doc_error=FALSE;
+    $u_doc_error=FALSE;
 
-    $p_doc_error=false;
-    $e5_doc_error=false;
-    $e6_doc_error=false;
+    $p_doc_error=FALSE;
+    $e5_doc_error=FALSE;
+    $e6_doc_error=FALSE;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -375,9 +381,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $otherlang=$_POST["otherlang"];
 
-    $error=false;
+    $error=FALSE;
     $s_doc=$ss_doc=$u_doc=$p_doc=$e5_doc=$e6_doc="";
-
+$s_doc_error=$ss_doc_error=$u_doc_error=$p_doc_error=$e5_doc_error=$e6_doc_error=FALSE;
 
    if(isset($_FILES["s_doc"]) && $_FILES["s_doc"]["error"] == 0){
         $allowed = array('pdf'=>'application/pdf');
@@ -388,31 +394,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
-            //  echo "<script>alert('File size greater than 1MB')</script>";
-            $s_doc_error=true;
-            $error=true;
+              //echo "<script>alert('File size greater than 1MB')</script>";
+            $s_doc_error=TRUE;
+            $error=TRUE;
 
 
         }
 
-        elseif(!in_array($filetype, $allowed))
+
+        if(!in_array($filetype, $allowed))
         {
              // echo "<script>alert('Please upload pdf only')</script>";
-                  $s_doc_error=true;
-                $error=true;
+                  $s_doc_error=TRUE;
+                $error=TRUE;
 
 
-         }
+        }
 
-         else {
+
+
+         if($s_doc_error==FALSE) {
 
               $dir="uploads".DIRECTORY_SEPARATOR."s_doc".DIRECTORY_SEPARATOR;
 
+
               $file_name=$email."_s_doc";
-                $s_doc=$email."_s_doc";
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
-                
+                $s_doc=$email."_s_doc".".".$ext;
+
                 move_uploaded_file($_FILES["s_doc"]["tmp_name"], $dir. $file_name.".".$ext);
                  //echo "Your Photo was uploaded successfully.";
 
@@ -420,7 +430,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                 }
                 else{
-                }
+
+                                }
 
 
     if(isset($_FILES["ss_doc"]) && $_FILES["ss_doc"]["error"] == 0){
@@ -433,30 +444,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
               //echo "<script>alert('File size greater than 1MB')</script>";
-            $ss_doc_error=true;
-            $error=true;
+            $ss_doc_error=TRUE;
+            $error=TRUE;
 
 
         }
 
-        elseif(!in_array($filetype, $allowed))
+        if(!in_array($filetype, $allowed))
         {
              // echo "<script>alert('Please upload pdf only')</script>";
-                  $ss_doc_error=true;
-                $error=true;
+                  $ss_doc_error=TRUE;
+                $error=TRUE;
 
 
          }
 
-         else {
+         if($ss_doc_error==FALSE) {
 
               $dir="uploads".DIRECTORY_SEPARATOR."ss_doc".DIRECTORY_SEPARATOR;
 
               $file_name=$email."_ss_doc";
-              $ss_doc=$email."_ss_doc";
                         
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                              $ss_doc=$email."_ss_doc".".".$ext;
+
                 
                 move_uploaded_file($_FILES["ss_doc"]["tmp_name"], $dir. $file_name.".".$ext);
                  //echo "Your Photo was uploaded successfully.";
@@ -465,6 +477,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                 }
                 else{
+
                 }
 
 
@@ -478,30 +491,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
              // echo "<script>alert('File size greater than 1MB')</script>";
-            $u_doc_error=true;
-            $error=true;
+            $u_doc_error=TRUE;
+            $error=TRUE;
 
 
         }
 
-        elseif(!in_array($filetype, $allowed))
+        if(!in_array($filetype, $allowed))
         {
               //echo "<script>alert('Please upload pdf only')</script>";
-                  $u_doc_error=true;
-                $error=true;
+                  $u_doc_error=TRUE;
+                $error=TRUE;
 
 
          }
 
-         else {
+         if($u_doc_error==FALSE) {
 
               $dir="uploads".DIRECTORY_SEPARATOR."u_doc".DIRECTORY_SEPARATOR;
 
               $file_name=$email."_u_doc";
-              $u_doc=$email."_u_doc";                        
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
-                
+                                $u_doc=$email."_u_doc".".".$ext;
+
                 move_uploaded_file($_FILES["u_doc"]["tmp_name"], $dir. $file_name.".".$ext);
                  //echo "Your Photo was uploaded successfully.";
 
@@ -509,6 +522,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                 }
                 else{
+
                 }
 
 
@@ -522,31 +536,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
               //echo "<script>alert('File size greater than 1MB')</script>";
-            $p_doc_error=true;
-            $error=true;
+            $p_doc_error=TRUE;
+            $error=TRUE;
 
 
         }
 
-        elseif(!in_array($filetype, $allowed))
+        if(!in_array($filetype, $allowed))
         {
             //  echo "<script>alert('Please upload pdf only')</script>";
-                  $p_doc_error=true;
-                $error=true;
+                  $p_doc_error=TRUE;
+                $error=TRUE;
 
 
          }
 
-         else {
+         if($p_doc_error==FALSE) {
 
               $dir="uploads".DIRECTORY_SEPARATOR."p_doc".DIRECTORY_SEPARATOR;
 
               $file_name=$email."_p_doc";
-              $p_doc=$email."_p_doc";
                         
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
-                
+                                $p_doc=$email."_p_doc".".".$ext;
+
                 move_uploaded_file($_FILES["p_doc"]["tmp_name"], $dir. $file_name.".".$ext);
                //  echo "Your Photo was uploaded successfully.";
 
@@ -554,6 +568,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                 }
                 else{
+
                 }
 
 
@@ -567,32 +582,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
              // echo "<script>alert('File size greater than 1MB')</script>";
-            $e5_doc_error=true;
-            $error=true;
+            $e5_doc_error=TRUE;
+            $error=TRUE;
 
 
         }
 
-        elseif(!in_array($filetype, $allowed))
+        if(!in_array($filetype, $allowed))
         {
              // echo "<script>alert('Please upload pdf only')</script>";
-                  $e5_doc_error=true;
-                $error=true;
+                  $e5_doc_error=TRUE;
+                $error=TRUE;
 
 
          }
 
-         else {
+         if($e5_doc_error==FALSE) {
 
 
               $dir="uploads".DIRECTORY_SEPARATOR."e5_doc".DIRECTORY_SEPARATOR;
               $file_name=$email."_e5_doc";
-              $e5_doc=$email."_e5_doc";
-              echo "as ".$e5_doc;
+             // echo "as ".$e5_doc;
                         
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
-                
+                     $e5_doc=$email."_e5_doc".".".$ext;
+
                 move_uploaded_file($_FILES["e5_doc"]["tmp_name"], $dir. $file_name.".".$ext);
                 // echo "Your Photo was uploaded successfully.";
 
@@ -600,6 +615,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                 }
                 else{
+
                 }
 
 
@@ -613,31 +629,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($filesize > $maxsize) {
               //die("Error: File size is larger than the allowed limit.");
              // echo "<script>alert('File size greater than 1MB')</script>";
-            $e6_doc_error=true;
-            $error=true;
-
+            $e6_doc_error=TRUE;
+            $error=TRUE;
 
         }
 
-        elseif(!in_array($filetype, $allowed))
+        if(!in_array($filetype, $allowed))
         {
             //  echo "<script>alert('Please upload pdf only')</script>";
-                  $e6_doc_error=true;
-                $error=true;
-
+                  $e6_doc_error=TRUE;
+                $error=TRUE;
 
          }
 
-         else {
+         if($e6_doc_error==FALSE) {
 
 
               $dir="uploads".DIRECTORY_SEPARATOR."e6_doc".DIRECTORY_SEPARATOR;
               $file_name=$email."_e6_doc";
-              $e6_doc=$email."_e6_doc";
                         
              // // Verify file extension
               $ext = pathinfo($filename, PATHINFO_EXTENSION);
-                
+                                $e6_doc=$email."_e6_doc".".".$ext;
+
                 move_uploaded_file($_FILES["e6_doc"]["tmp_name"], $dir. $file_name.".".$ext);
                 // echo "Your Photo was uploaded successfully.";
 
@@ -645,15 +659,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                 }
                 else{
+
                 }
 
 
 
-    if(!$error){
+    if($error==FALSE){
 
         // if no error save to database
 
 
+        if($s_doc=="") $s_doc=$_SESSION["user"][39];
+    if($ss_doc=="") $ss_doc=$_SESSION["user"][48];
+    if($u_doc=="") $u_doc=$_SESSION["user"][57];
+    if($p_doc=="") $p_doc=$_SESSION["user"][66];
+    if($e5_doc=="") $e5_doc=$_SESSION["user"][75];
+    if($e6_doc=="") $e6_doc=$_SESSION["user"][84];
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -666,6 +687,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $sql = "UPDATE $table_name SET s_passed='$s_passed', s_spec='$s_spec', s_board='$s_board', s_year='$s_year', s_dur='$s_dur', s_marks='$s_marks', s_type='$s_type',  ss_passed='$ss_passed', ss_spec='$ss_spec', ss_board='$ss_board', ss_year='$ss_year', ss_dur='$ss_dur', ss_marks='$ss_marks', ss_type='$s_type', u_passed='$u_passed', u_spec='$u_spec', u_board='$u_board', u_year='$u_year', u_dur='$u_dur', u_marks='$u_marks', u_type='$u_type',  p_passed='$p_passed', p_spec='$p_spec', p_board='$p_board', p_year='$p_year', p_dur='$p_dur', p_marks='$p_marks', p_type='$p_type', e5_name='$e5_name', e5_passed='$e5_passed', e5_spec='$e5_spec', e5_board='$e5_board', e5_year='$e5_year', e5_dur='$e5_dur', e5_marks='$e5_marks', e5_type='$e5_type', e6_name='$e6_name', e6_passed='$e6_passed', e6_spec='$e6_spec', e6_board='$e6_board', e6_year='$e6_year', e6_dur='$e6_dur', e6_marks='$e6_marks', e6_type='$e6_type', h_read='$h_read', h_write='$h_write',h_speak='$h_speak',e_read='$e_read',e_write='$e_write',e_speak='$e_speak', otherlang='$otherlang' ,edu_form='y', s_doc='$s_doc', ss_doc='$ss_doc', u_doc='$u_doc' , p_doc='$p_doc', e5_doc='$e5_doc', e6_doc='$e6_doc'  WHERE email='$email' ";
 
+            //echo $sql;
             if ($conn->query($sql) === TRUE) {
                // echo "Updated successfully";
 
@@ -787,79 +809,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
                 }
 
-                else if($_POST['act'] == 's_doc'){
-                $page="docs";
-
-                        // Check if file was uploaded without errors
-                        if(isset($_FILES["cv"]) && $_FILES["cv"]["error"] == 0){
-                            
-                            $filename = $_FILES["cv"]["name"];
-                            $filetype = $_FILES["cv"]["type"];
-                            $filesize = $_FILES["cv"]["size"];
-
-                            if($filesize/(1024*1024)>1) {
-
-                                $cv_success="n";
-                                echo "file not ok";
-
-                            }
-                            else {
-                            $dir="uploads/cv/";
-                            $file_name=$email."_cv";
-                        
-                            // // Verify file extension
-                             $ext = pathinfo($filename, PATHINFO_EXTENSION);
-                            // if(!array_key_exists($ext, $allowed)) die("Error: Please select a valid file format.");
-                            move_uploaded_file($_FILES["cv"]["tmp_name"], $dir. $file_name.".".$ext);
-                         
-                                    // Create connection
-                            $conn = new mysqli($servername, $username, $password, $dbname);
-                            // Check connection
-                            if ($conn->connect_error) {
-                                die("Connection failed: " . $conn->connect_error);
-                            }
-                            else{
-
-
-                                $sql = "UPDATE $table_name SET cv='$file_name.$ext'  WHERE email='$email'";
-
-                                if ($conn->query($sql) === TRUE) {
-                                  //  echo "Updated successfully";
-
-                                 $sql="SELECT * FROM $table_name WHERE email='$email' ";
-
-                                $result=$conn->query($sql);
-
-                                if($result->num_rows>0){
-
-
-                                    $row=mysqli_fetch_row($result);
-
-                                    $_SESSION["user"]=$row;
-
-                                }
-
-
-                                } else {
-                                    $cv_success="n";
-                                    echo "Error: " . $sql . "<br>" . $conn->error;
-                                }
-
-                                $cv_uploaded=$_SESSION["user"][64];
-                                $conn->close();
-                            }
-                                                   // } 
-                            // } else{
-                            //     echo "Error: There was a problem uploading your file. Please try again."; 
-                            // }
-
-                     }
-                            } else{
-                                echo "Error: " . $_FILES["cv"]["error"];
-                            }
-                        
-            
-                }
+               
 
                 else if($_POST['act'] == 'act_photo'){
 
@@ -1704,6 +1654,10 @@ else{
 
         </form>
 
+        </div>
+    <div id="test2" class="col" style="margin-left:25px;margin-right:25px;">
+    <br>
+
 <?php
   $s_doc=$_SESSION["user"][39];
     $ss_doc=$_SESSION["user"][48];
@@ -1713,11 +1667,9 @@ else{
     $e6_doc=$_SESSION["user"][84];
 
 
-?>
 
-        </div>
-    <div id="test2" class="col" style="margin-left:25px;margin-right:25px;">
-    <br>
+
+?>
 
     <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
     <input type="hidden" name="act" value="education"/>
@@ -1775,12 +1727,17 @@ else{
               </select>
         </td>
         <td>
-         <input required type="file" name="s_doc" id="cv" > 
-                    <?php if($s_doc!="")
+                    <?php 
+                    if($s_doc!=""){
+                        echo " <input  type='file' name='s_doc'  > ";
                      echo " <br><br> Document Already Uploaded  <br>
                     <a href='uploads/s_doc/$s_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
-                         
-                    if($s_doc_error)
+                         }
+                         else{
+                        echo " <input required type='file' name='s_doc' id='cv' > ";
+
+                         }
+                    if($s_doc_error==TRUE)
                     echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>            
@@ -1805,12 +1762,19 @@ else{
               </select>
         </td>
         <td>
-         <input required type="file" name="ss_doc" id="cv" > 
-         <?php if($ss_doc!="")
+         
+
+           <?php 
+                    if($ss_doc!=""){
+                        echo " <input  type='file' name='ss_doc'  > ";
                      echo " <br><br> Document Already Uploaded  <br>
                     <a href='uploads/ss_doc/$ss_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
-                         
-                    if($ss_doc_error)
+                         }
+                         else{
+                        echo " <input  required type='file' name='ss_doc' id='cv' > ";
+
+                         }
+                    if($ss_doc_error==TRUE)
                     echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>    
@@ -1854,14 +1818,23 @@ else{
               </select>
         </td>
         <td>
-         <input required type="file" name="u_doc" id="cv"> 
-         <?php if($u_doc!="")
-                     echo "<br><br> Document Already Uploaded  <br>
+         
+
+          <?php 
+                    if($u_doc!=""){
+                        echo " <input  type='file' name='u_doc'  > ";
+                     echo " <br><br> Document Already Uploaded  <br>
                     <a href='uploads/u_doc/$u_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
-                         
-                    if($u_doc_error)
+                         }
+                         else{
+                        echo " <input  type='file' name='u_doc' id='cv' > ";
+
+                         }
+                    if($u_doc_error==TRUE)
                     echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
+
+
         </td>    
 
     </tr>
@@ -1885,12 +1858,17 @@ else{
               </select>
         </td>
         <td>
-         <input required type="file" name="p_doc" id="cv"> 
-         <?php if($p_doc!="")
+          <?php 
+                    if($p_doc!=""){
+                        echo " <input  type='file' name='p_doc'  > ";
                      echo " <br><br> Document Already Uploaded  <br>
                     <a href='uploads/p_doc/$p_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
-                         
-                    if($p_doc_error)
+                         }
+                         else{
+                        echo " <input required type='file' name='p_doc' id='cv' > ";
+
+                         }
+                    if($p_doc_error==TRUE)
                     echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>    
@@ -1917,12 +1895,17 @@ else{
               </select>
         </td>
         <td>
-         <input  type="file" name="e5_doc" id="e5_doc"> 
-         <?php if($e5_doc!="")
+          <?php 
+                    if($e5_doc!=""){
+                        echo " <input  type='file' name='e5_doc'  > ";
                      echo " <br><br> Document Already Uploaded  <br>
                     <a href='uploads/e5_doc/$e5_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
-                         
-                    if($e5_doc_error)
+                         }
+                         else{
+                        echo " <input  type='file' name='e5_doc' id='cv' > ";
+
+                         }
+                    if($e5_doc_error==TRUE)
                     echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
         </td>    
@@ -1949,14 +1932,21 @@ else{
               </select>
         </td>
         <td>
-         <input  type="file" name="e6_doc" id="e6_doc"> 
-         <?php if($e6_doc!="")
+         
+          <?php 
+                    if($e6_doc!=""){
+                        echo " <input  type='file' name='e6_doc'  > ";
                      echo " <br><br> Document Already Uploaded  <br>
                     <a href='uploads/e6_doc/$e6_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
-                         
-                    if($e6_doc_error)
+                         }
+                         else{
+                        echo " <input  type='file' name='e6_doc' id='cv' > ";
+
+                         }
+                    if($e6_doc_error==TRUE)
                     echo "<br> <span class='error'> File Size greater than 1MB or File is not a pdf file</span>";
                     ?>
+
         </td>    
 
     </tr>           
@@ -2194,15 +2184,16 @@ else{
 
     <?php 
 
-    $photo="uploads/photo/".$_SESSION["user"][15];
-    $sign="uploads/sign/".$_SESSION["user"][16];
-    $cv_uploaded=$_SESSION["user"][64];
-    $s_doc=$_SESSION["user"][64];
-    $ss_doc=$_SESSION["user"][64];
-    $u_doc=$_SESSION["user"][64];
-    $p_doc=$_SESSION["user"][64];
-    $e5_doc=$_SESSION["user"][64];
-    $e6_doc=$_SESSION["user"][64];
+    $photo="uploads/photo/".$_SESSION["user"][15]."?rand(0, 1000)";
+    $sign="uploads/sign/".$_SESSION["user"][16]."?rand(0, 1000)";
+
+    // $cv_uploaded=$_SESSION["user"][64];
+    // $s_doc=$_SESSION["user"][64];
+    // $ss_doc=$_SESSION["user"][64];
+    // $u_doc=$_SESSION["user"][64];
+    // $p_doc=$_SESSION["user"][64];
+    // $e5_doc=$_SESSION["user"][64];
+    // $e6_doc=$_SESSION["user"][64];
 
 
 
@@ -2238,7 +2229,10 @@ else{
 
                 </div>
                 <div class="col m6 s12 center">
-                    <img id="pic" src="<?php $ph = $_SESSION["user"][15]; if($ph != "") echo "uploads/photo/".$_SESSION["user"][15]; else echo "images/sample_photo.png"; ?>" alt="your photo" height="150px" width="120px" style="margin:10%"/>
+<!--                     <img id="pic" src="<?php $ph = $_SESSION["user"][15]; if($ph != "") echo "uploads/photo/".$_SESSION["user"][15]; else echo "images/sample_photo.png"; ?>" alt="your photo" height="150px" width="120px" style="margin:10%"/>
+ -->
+
+                     <img id="pic" src="<?php echo $photo ?>" alt="your photo" height="150px" width="120px" style="margin:10%"/>
 
                 </div>
             </div>
@@ -2253,13 +2247,16 @@ else{
                 <div class="col m6 s12 center">
                     <label class="label_format" for="signInput">Upload Signature</label>
                     <input required name="sign" type='file' onchange="readSIGNURL(this);" style="margin:10%"/>
-                    <h6>File size should be less than 200KB.<br>Only jpg, jped, png, gif files are allowed.</h6>
+                    <h6>File size should be less than 200KB.<br>Only jpg and jpef files are allowed.</h6>
                     <br>
                     <button class=" btn waves-effect waves-light" style="margin-bottom: 20px;" type="submit" value="submit">Upload     <i class="material-icons right">cloud_upload</i></button>
 
                 </div>
                 <div class="col m6 s12 center">
-                    <img id="sign" src="<?php $si = $_SESSION["user"][16]; if($si != "") echo "uploads/sign/".$_SESSION["user"][16]; else echo "images/sign_sample.jpg"; ?>" alt="your sign" height="80px" width="250px" style="margin:10%"/>
+<!--                     <img id="sign" src="<?php $si = $_SESSION["user"][16]; if($si != "") echo "uploads/sign/".$_SESSION["user"][16]; else echo "images/sign_sample.jpg"; ?>" alt="your sign" height="80px" width="250px" style="margin:10%"/>
+ -->
+
+                     <img id="sign" src="<?php echo $sign ?>" alt="your sign" height="80px" width="250px" style="margin:10%"/>
 
                 </div>
 
@@ -2389,7 +2386,7 @@ else{
          <div class="col m4 s12 offset-m6" style="margin-left:0px;margin-top:20px;padding-left:5%">
              <div class="left" style="margin-left:24px;float:left">
                 <h5 style="color:#3FAEA8"><b>Photograph</b></h5>
-                <img class="center"  style="width:180px;height:210px;" src="uploads/photo/<?php echo $_SESSION["user"][15] ?>?" alt="photo" >
+                <img class="center"  style="width:180px;height:210px;" src="<?php  echo "$photo"; ?>" alt="photo" >
                 <br><br><br>
             
              </div>
@@ -2397,7 +2394,7 @@ else{
              <div>
                  <br><br><br>
                  <h5  style="color:#3FAEA8"><b>Signature</b></h5>
-            <img class="center"  style="width:300px;height:100px;" src="uploads/sign/<?php echo $_SESSION["user"][16] ?>?" alt="photo"/>
+            <img class="center"  style="width:300px;height:100px;" src="<?php  echo "$sign"; ?>" alt="photo"/>
        
              </div>
              </div>
@@ -2415,6 +2412,57 @@ else{
     <div class="s12">
         <h6 style="color:#3FAEA8" class="center"><b> Educational Information</b></h6>
         <br>
+
+        <?php
+
+
+    $s_doc=$_SESSION["user"][39];
+    $ss_doc=$_SESSION["user"][48];
+    $u_doc=$_SESSION["user"][57];
+    $p_doc=$_SESSION["user"][66];
+    $e5_doc=$_SESSION["user"][75];
+    $e6_doc=$_SESSION["user"][84];
+
+  //       if($s_doc!=""){
+  //     echo "<a href='uploads/s_doc/$s_doc?rand(0, 1000)' target='_blank'>Document For Secondary </a>";
+  //     echo "<br><br>";
+
+  // }
+
+  //       if($ss_doc!=""){
+  //     echo "<a href='uploads/ss_doc/$ss_doc?rand(0, 1000)' target='_blank'>Document For Senior Secondary </a>";
+  //     echo "<br><br>";
+
+  // }
+
+  //       if($u_doc!=""){
+  //     echo "<a href='uploads/u_doc/$u_doc?rand(0, 1000)' target='_blank'>Document For Undergraduate </a>";
+  //     echo "<br><br>";
+
+  // }
+
+  //       if($p_doc!=""){
+  //     echo "<a href='uploads/p_doc/$p_doc?rand(0, 1000)' target='_blank'>Document For Post Graduate </a>";
+  //     echo "<br><br>";
+
+  // }
+
+
+  //       if($e5_doc!=""){
+  //     echo "<a href='uploads/e5_doc/$e5_doc?rand(0, 1000)' target='_blank'>Document For ".$_SESSION["user"][67]." </a>";
+  //     echo "<br><br>";
+
+  // }
+
+
+  //       if($e6_doc!=""){
+  //     echo "<a href='uploads/e6_doc/$e6_doc?rand(0, 1000)' target='_blank'>Document For ".$_SESSION["user"][76]." </a>";
+  //     echo "<br><br>";
+
+  // }
+
+        ?>
+
 
         <table class="striped" style="border:1px solid black">
 
@@ -2442,7 +2490,10 @@ else{
             </th>
            
             <th>
-                Regular / Distance /Part
+                Regular / Distance /Part-Time
+            </th>
+            <th>
+                Document Uploaded
         </th>
         </tr>
 
@@ -2471,6 +2522,10 @@ else{
             <td>
             <?php echo $_SESSION["user"][38] ?>
             </td>
+            <td>
+                <?php echo "<a href='uploads/s_doc/$s_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
+    ?>
+            </td>
         </tr>
         <tr>
             <td>
@@ -2496,6 +2551,10 @@ else{
             </td>
             <td>
             <?php echo $_SESSION["user"][47] ?>
+            </td>
+            <td>
+                <?php echo "<a href='uploads/ss_doc/$ss_doc?rand(0, 1000)' target='_blank'>Click To Review </a>";
+      ?>    
             </td>
         </tr>
 
@@ -2524,6 +2583,10 @@ else{
             <td>
             <?php echo $_SESSION["user"][56] ?>  
             </td>
+            <td>
+                <?php echo "<a href='uploads/u_doc/$u_doc?rand(0, 1000)' target='_blank'>Click To Review </a>";
+      ?>
+            </td>
         </tr>
 
         <tr>
@@ -2551,6 +2614,10 @@ else{
             <td>
             <?php echo $_SESSION["user"][65] ?>  
             </td>
+            <td>
+                <?php echo "<a href='uploads/p_doc/$p_doc?rand(0, 1000)' target='_blank'>Click To Review </a>";
+      ?>    
+            </td>
         </tr>
         <tr id="fex1" style="display:none">
             <td>
@@ -2577,6 +2644,10 @@ else{
             <td>
             <?php echo $_SESSION["user"][74] ?>  
             </td>
+            <td>
+            <?php echo "<a href='uploads/e5_doc/$e5_doc?rand(0, 1000)' target='_blank'>Click To Review</a>";
+       ?>    
+             </td>
         </tr>
         <tr id="fex2" style="display:none">
             <td>
@@ -2603,68 +2674,17 @@ else{
             <td>
             <?php echo $_SESSION["user"][83] ?>  
             </td>
+            <td>
+                <?php echo "<a href='uploads/e6_doc/$e6_doc?rand(0, 1000)' target='_blank'>Click To Review </a>";
+      ?>    
+            </td>
         </tr>
 
 
         </table>
 
 <br>
-        <h6 style="color:#3FAEA8" class="center"><b>Documents Uploaded</b></h6>
-
-        <?php
-
-
-    $s_doc=$_SESSION["user"][39];
-    $ss_doc=$_SESSION["user"][48];
-    $u_doc=$_SESSION["user"][57];
-    $p_doc=$_SESSION["user"][66];
-    $e5_doc=$_SESSION["user"][75];
-    $e6_doc=$_SESSION["user"][84];
-
-        if($s_doc!=""){
-      echo "<a href='uploads/s_doc/$s_doc?rand(0, 1000)' target='_blank'>Document For Secondary </a>";
-      echo "<br><br>";
-
-  }
-
-        if($ss_doc!=""){
-      echo "<a href='uploads/ss_doc/$ss_doc?rand(0, 1000)' target='_blank'>Document For Senior Secondary </a>";
-      echo "<br><br>";
-
-  }
-
-        if($u_doc!=""){
-      echo "<a href='uploads/u_doc/$u_doc?rand(0, 1000)' target='_blank'>Document For Undergraduate </a>";
-      echo "<br><br>";
-
-  }
-
-        if($p_doc!=""){
-      echo "<a href='uploads/p_doc/$p_doc?rand(0, 1000)' target='_blank'>Document For Post Graduate </a>";
-      echo "<br><br>";
-
-  }
-
-
-        if($e5_doc!=""){
-      echo "<a href='uploads/e5_doc/$e5_doc?rand(0, 1000)' target='_blank'>Document For ".$_SESSION["user"][67]." </a>";
-      echo "<br><br>";
-
-  }
-
-
-        if($e6_doc!=""){
-      echo "<a href='uploads/e6_doc/$e6_doc?rand(0, 1000)' target='_blank'>Document For ".$_SESSION["user"][76]." </a>";
-      echo "<br><br>";
-
-  }
-
-
-
-        ?>
-
-
-
+       
 
         <br>
         <h6 style="color:#3FAEA8" class="center"><b>Languages Known</b></h6>
@@ -2709,7 +2729,8 @@ else{
 
             
         </table>
-        <div class="center"><span style="color:#3FAEA8"><b>Other Lanugaes Known:</b></span><?php echo $_SESSION["user"][135]  ?></div>
+        <br>
+        <div class="center"><span style="color:#3FAEA8"><b>Other Lanugaes Known:</b></span><?php $ol =  $_SESSION["user"][135] ; if($ol!="") echo $ol; else echo "&nbsp&nbsp&nbspNA" ?></div>
 
         <br>
          <hr style="border: 1px dotted #3FAEA8;">
@@ -2905,7 +2926,7 @@ else{
      <br>
       <p style="clear:both"></p>
 
-     <p style="color:#3FAEA8;margin-bottom: 4px" class="left"><b>Key Responsibilities :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp </b></p>
+     <p style="color:#3FAEA8;margin-bottom: 4px" class="left"><b>Key Responsibilities :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
      <div class="col s6 offset-s3">
      <p class="left col s6 offset-s3"><?php $v1 = $_SESSION["user"][125]; if($v1!="") echo $v1; else echo "NA";?></p>
      </div>
@@ -2913,13 +2934,13 @@ else{
       <p style="clear:both"></p>
      <br>
 
-     <p style="color:#3FAEA8;margin-bottom: 4px" class="left"><b>Statement of Purpose :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp </b></p>
+     <p style="color:#3FAEA8;margin-bottom: 4px" class="left"><b>Statement of Purpose :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b></p>
      <div class="col s6 offset-s3">
      <p class="left col s6 offset-s3"><?php $v1 = $_SESSION["user"][127]; if($v1!="") echo $v1; else echo "NA";?></p>
      </div>
      
      <br><br>
-     <p style="clear:both;color:#3FAEA8;margin-bottom: 4px" class="left"><b>Training Undertaken : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp</b></p>
+     <p style="clear:both;color:#3FAEA8;margin-bottom: 4px" class="left"><b>Training Undertaken : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
      <div class="col s6 offset-s3" >
      <p class="left col s6 offset-s3"><?php $v2 = $_SESSION["user"][128];  if($v2!="") echo $v2; else echo "NA"?></p>
     </div>
@@ -2930,15 +2951,17 @@ else{
     
         <h5 class="notprint" style="clear:both;color:#3FAEA8" class="center"><b>Declaration</b></h5>
         <br>
-        <label class="notprint"  style="color:#3FAEA8;margin:10px;font-size:16px;margin-left:15%">
-            <span style="margin:2px;">
-            <input  type="checkbox" id="check"/>
-        </span>
-            <b class="print">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I do hereby declare that all the information given above is true to the best of my knowledge and belief. </b></label>
+
+         <label>
+        <input type="checkbox" id="check" value="Yes" />
+        <span style="color:black"><b><i>I do hereby declare that all the information given above is true to the best of my knowledge and belief. </i></b></span>
+      </label>
+
+
         <br>
-        <br>
-        <p class="notprint" class="center" style="color:#f00">Pleae be sure that the details are correct. Once submitted, you cannot edit the application form.
-            You can go to previous tabs and ensure that given data is correct</p>
+        <p class="notprint" class="center" style="color:#f00">Pleae be sure that the details are correct. You can go to previous tabs and ensure that given data is correct before submitting the form.
+        Once submitted, you cannot edit the application form.
+            </p>
         <button id="submitButton" class="waves-effect waves btn col s6 offset-s3 m2 offset-m5 z-depth-5 notprint" style="margin-top:25px;color:#fff"
                 type="submit" value="submit" name="action">
             Submit
@@ -2952,9 +2975,9 @@ else{
     </div>
 
 </form>
-        <button class="notprint" onclick="window.print();return false;">
+       <!--  <button class="notprint" onclick="window.print();return false;">
             Print
-        </button>
+        </button> -->
   </div>
 
 
@@ -3840,33 +3863,6 @@ textarea3.addEventListener("input", function(){
   );
 }, false);
 
-//   $( "#text1" ).keypress(function(e) {
-     
-//      if (e.which < 48 || 
-//     (e.which > 57 && e.which < 65) || 
-//     (e.which > 90 && e.which < 97) ||
-//     e.which > 122) {
-//         if(e.which != 41 && e.which != 40 && e.which != 32 && e.which != 44 && e.which != 46)
-//             e.preventDefault();
-// }
-// });    
-
-// $(function(){
-
-//    $( "#text1" ).bind( 'paste',function()
-//    {
-//        setTimeout(function()
-//        { 
-//           //get the value of the input text
-//           var data= $( '#textInput' ).val() ;
-//           //replace the special characters to '' 
-//           var dataFull = data.replace(/[^\w\s]/gi, '');
-//           //set the new value of the input text without special characters
-//           $( '#textInput' ).val(dataFull);
-//        });
-
-//     });
-// });
     </script>   
     
 

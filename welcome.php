@@ -2,6 +2,13 @@
 <?php
 session_start();
 
+ if(!array_key_exists("loggedin",$_SESSION) || $_SESSION["loggedin"]!=TRUE){
+
+                                header("Location: unautherized.php"); 
+
+
+                    }
+
 ?>
 <html>
 
@@ -81,7 +88,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
       at a time ,save it and later you can fill other sections. DO REMEMBER TO SAVE/UPDATE SECTION ONCE FILLED
     </p>
 
-    <?php if($_SESSION["user"][20]=="n" || $_SESSION["user"][20]=="y"){
+    <?php if($_SESSION["user"][20]=="n"){
     
     echo '<button class=" btn waves-effect waves-light"><a href="application_form1.php">Fill Application form</a></button>
     <br>
@@ -91,7 +98,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
     <button id="disable" class=" btn waves-effect waves-light" ><a href="pdf1.php" target="_blank">Download Pdf</a></button>
     </div>
 ';}
-   if($_SESSION["user"][20]=="y" || $_SESSION["user"][20]=="n"){
+   if($_SESSION["user"][20]=="y"){
     
     echo '<button id="disable" class=" btn waves-effect waves-light"><a href="application_form1.php">Fill Application form</a></button>
     <br>

@@ -50,7 +50,7 @@
 	//	$table_name="user";
 
 
-$email=$name=$password=$retype=$contact=$qualification=$retype_error=$email_error=$password_error="";
+$email=$name=$pass=$retype=$contact=$qualification=$retype_error=$email_error=$password_error="";
 
 $successfull_signup="";
 $error=false;
@@ -82,7 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		echo "Wrong password format";
 		$error = true;
 		//echo "<script>alert('Wrong Password Format')</script>";
-	
 
 		echo "<script> window.onload = function(){
     		document.getElementById('passerror').innerHTML = 'wp'</script> ;";
@@ -122,7 +121,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 
 
-			$sql = "INSERT INTO $table_name (email, password,signup_token,isvalidated,contact,apply_for) VALUES ('$email', '$pass','$token',false,'$contact','$apply_fo')";
+                $table_name=strtolower($table_name);
+			$sql = "INSERT INTO $table_name (email, password,signup_token,isvalidated,contact,apply_for) VALUES ('$email', '$pass','$token',false,'$contact','$apply_for')";
 
 			if ($conn->query($sql) === TRUE) {
 			    echo "New record created successfully";
@@ -162,9 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   else{
 
-
 	  $sql = "SELECT name FROM posts";
-
 
 	  $result=$conn->query($sql);
 

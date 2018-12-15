@@ -7,6 +7,12 @@
         <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 
+        <!--CSS-->
+        <link href="css/datepicker.css" rel="stylesheet">
+         
+        <!--JS-->
+        <script src="js/bootstrap-datepicker.js"></script>
+
         
       </head>
     <body>
@@ -49,6 +55,10 @@
       </label>
     </p>
   </form>
+
+  <div class="input-append datepicker1" data-date="12-04-2017" data-date-format="dd-mm-yyyy">
+<input type="text" value="12-04-2017" />
+</div>
         
 
         <div class="row">
@@ -71,6 +81,11 @@
   </form>
         
 
+<script>
+$(function() {   
+ $('.datepicker').datepicker();
+});
+</script>
       <script type="text/javascript" src="js/materialize.js"></script>
       <script type="text/javascript">
  $(document).ready(function() {

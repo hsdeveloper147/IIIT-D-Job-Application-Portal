@@ -2,10 +2,20 @@
 
 session_start();
 
+ if(!array_key_exists("loggedin",$_SESSION) || $_SESSION["loggedin"]!=TRUE){
+
+                                header("Location: unautherized.php"); 
+
+
+                    }
+
 $user=$_SESSION["user"];
 ob_start(); 
 // Include the main TCPDF library (search for installation path).
 require_once('tcpdf/tcpdf_import.php');
+
+use setasign\Fpdi\Fpdi;
+
 
 
 // Extend the TCPDF class to create custom Header and Footer

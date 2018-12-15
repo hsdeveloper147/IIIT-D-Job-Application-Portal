@@ -14,8 +14,16 @@
     <body>
 
     <?php
+                session_start();
 
-require 'conf.php';
+        require 'conf.php';
+
+        if(!array_key_exists("admin",$_SESSION) || $_SESSION["admin"]!="ok"){
+
+                                header("Location: unautherized.php"); 
+
+
+                    }
 
 
         // Create connection
@@ -61,8 +69,19 @@ require 'conf.php';
             if(isset($_POST['act'])){
                 if($_POST['act'] == 'new_post'){
          
+            $cando=TRUE;
 
+            foreach ($jobs as $job) {
+
+                    if(strtolower($job)==strtolower($_POST["post"])){
+
+                        $cando=FALSE;
+                    }
+                }
                             // Create connection
+
+        if($cando==TRUE){
+
         $conn = new mysqli($servername, $username, $password, $dbname);
         // Check connection
         if ($conn->connect_error) {
@@ -75,7 +94,7 @@ require 'conf.php';
 
             $dt=date("Y-m-d");
 
-            $sql = "INSERT INTO posts (name,date) VALUES ('$post','$dt') ";
+            $sql = "INSERT INTO posts (name,date,available) VALUES ('$post','$dt','yes') ";
 
 
             if ($conn->query($sql) === TRUE) {
@@ -249,6 +268,7 @@ require 'conf.php';
                 if($conn->query($sql2)===TRUE){
 
 
+
                     $sql = "SELECT name FROM posts";
 
 
@@ -288,7 +308,11 @@ require 'conf.php';
             $conn->close();
         }
 
+}
+        else{
 
+            echo "Job Already Exist";
+        }
                 }
 
             }

@@ -61,7 +61,8 @@ $table_name="table";
                     $table_name=$table_name."_".$name;
                 }
                 
-                echo $table_name;
+                //echo $table_name;
+                $table_name=strtolower($table_name);
 
 		$conn=new mysqli($servername,$username,$password,$dbname);
 
@@ -89,7 +90,7 @@ $table_name="table";
 
 				echo "<br>".$username;
 				
-	 			   $_SESSION['loggedin'] = true;
+	 			   $_SESSION['loggedin'] = TRUE;
 	    		   $_SESSION['username'] = $username; // $username coming from the form, such as $_POST['username']
 				
 				header("Location: welcome.php"); 
